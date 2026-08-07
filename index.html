@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Team | AI Career Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: '#161F30',
+                            accent: '#6366F1',
+                            accentHover: '#4F46E5',
+                            textMuted: '#9CA3AF'
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradientX 8s ease infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        gradientX: {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366F1;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-white font-sans min-h-screen flex items-center justify-center antialiased relative overflow-x-hidden p-4 md:p-8">
+
+    <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <main class="w-full max-w-2xl bg-brand-card/60 backdrop-blur-xl border border-gray-800 rounded-2xl shadow-2xl p-6 md:p-10 transform transition-all duration-500 hover:border-indigo-500/30">
+        
+        <header class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-500/10 text-brand-accent mb-4 animate-float">
+                <i class="fa-solid fa-laptop-code text-2xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient-x bg-[length:200%_200%]">
+                Begin Your Journey
+            </h1>
+            <p class="text-brand-textMuted mt-2 text-sm md:text-base">
+                Show us your potential. Upload your resume and tell us your story.
+            </p>
+        </header>
+
+        <form id="screeningForm" class="space-y-6" onsubmit="handleSubmit(event)">
+            
+            <div>
+                <label for="nameInput" class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <input type="text" id="nameInput" required
+                        class="w-full bg-brand-dark/50 border border-gray-700 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-transparent transition-all duration-300"
+                        placeholder="John Doe">
+                </div>
+            </div>
+
+            <div>
+                <label for="emailInput" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <input type="email" id="emailInput" required
+                        class="w-full bg-brand-dark/50 border border-gray-700 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-transparent transition-all duration-300"
+                        placeholder="you@example.com">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Upload Resume (PDF only)</label>
+                <div id="dropZone" class="relative group border-2 border-dashed border-gray-700 hover:border-brand-accent rounded-xl p-8 text-center cursor-pointer transition-all duration-300 bg-brand-dark/40 hover:bg-brand-dark/70">
+                    <input type="file" id="resumeInput" accept=".pdf" class="hidden" required>
+                    
+                    <div id="uploadPrompt" class="space-y-3">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-500 group-hover:text-brand-accent transition-colors duration-300"></i>
+                        <p class="text-sm text-gray-300">
+                            <span class="font-semibold text-brand-accent">Click to upload</span> or drag and drop
+                        </p>
+                        <p class="text-xs text-brand-textMuted">PDF files up to 10MB</p>
+                    </div>
+
+                    <div id="filePreview" class="hidden space-y-3 items-center justify-center">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-red-500/10 text-red-400">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </div>
+                        <p id="fileName" class="text-sm font-medium text-indigo-300 truncate max-w-xs mx-auto"></p>
+                        <button type="button" id="removeFileBtn" class="text-xs text-gray-400 hover:text-red-400 transition-colors duration-200 underline">
+                            Remove file
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="whyJoin" class="block text-sm font-medium text-gray-300 mb-2">
+                    Why do you want to join our organization?
+                </label>
+                <div class="relative">
+                    <textarea id="whyJoin" rows="4" required maxlength="1000"
+                        class="w-full bg-brand-dark/50 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-transparent transition-all duration-300 resize-none"
+                        placeholder="Tell us about your motivation, alignment with our values, and what drives you..."></textarea>
+                    <div class="absolute bottom-3 right-3 text-xs text-brand-textMuted">
+                        <span id="charCount">0</span>/1000
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn"
+                class="w-full relative overflow-hidden bg-brand-accent hover:bg-brand-accentHover text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-brand-dark flex items-center justify-center gap-2 group">
+                <span id="btnText">Submit Application</span>
+                <i class="fa-solid fa-paper-plane text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" id="btnIcon"></i>
+            </button>
+        </form>
+
+        <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-500 bg-gray-900 border border-emerald-500/30 p-4 rounded-xl shadow-2xl flex items-center gap-3 z-50">
+            <div id="toastIcon" class="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <h4 id="toastTitle" class="text-sm font-bold text-white">Success!</h4>
+                <p id="toastMessage" class="text-xs text-brand-textMuted">Your application has been submitted.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Replace this with your actual Webhook URL (e.g., Make, Zapier, n8n, Slack, or custom backend)
+        const WEBHOOK_URL = 'http://localhost:5678/webhook-test/hr';
+
+        const dropZone = document.getElementById('dropZone');
+        const resumeInput = document.getElementById('resumeInput');
+        const nameInput = document.getElementById('nameInput');
+        const emailInput = document.getElementById('emailInput');
+        const uploadPrompt = document.getElementById('uploadPrompt');
+        const filePreview = document.getElementById('filePreview');
+        const fileName = document.getElementById('fileName');
+        const removeFileBtn = document.getElementById('removeFileBtn');
+        const whyJoinTextArea = document.getElementById('whyJoin');
+        const charCount = document.getElementById('charCount');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const toast = document.getElementById('toast');
+
+        // Drag & Drop Functionality
+        dropZone.addEventListener('click', () => resumeInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-brand-accent', 'bg-brand-dark/70');
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('border-brand-accent', 'bg-brand-dark/70');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length) handleFile(files[0]);
+        });
+
+        resumeInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            if (file.type !== "application/pdf") {
+                showToast("Invalid File", "Please upload a PDF file only.", false);
+                resumeInput.value = '';
+                return;
+            }
+            // Update UI for file chosen
+            fileName.textContent = file.name;
+            uploadPrompt.classList.add('hidden');
+            filePreview.classList.remove('hidden');
+            filePreview.classList.add('flex');
+        }
+
+        removeFileBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Stop trigger click on dropZone
+            resumeInput.value = '';
+            filePreview.classList.add('hidden');
+            filePreview.classList.remove('flex');
+            uploadPrompt.classList.remove('hidden');
+        });
+
+        // Character Counter Logic
+        whyJoinTextArea.addEventListener('input', (e) => {
+            charCount.textContent = e.target.value.length;
+        });
+
+        // Form Submit Handler
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            const file = resumeInput.files[0];
+            const nameValue = nameInput.value.trim();
+            const emailValue = emailInput.value.trim();
+            const whyJoinText = whyJoinTextArea.value.trim();
+
+            if (!file) {
+                showToast("Missing File", "Please upload your resume.", false);
+                return;
+            }
+
+            // UI Loading State
+            submitBtn.disabled = true;
+            btnText.textContent = "Submitting...";
+            btnIcon.className = "fa-solid fa-spinner animate-spin text-sm";
+
+            // Preparing FormData (Since we are sending a file + text)
+            const formData = new FormData();
+            formData.append('name', nameValue);
+            formData.append('email', emailValue);
+            formData.append('resume', file);
+            formData.append('why_join', whyJoinText);
+            formData.append('submitted_at', new Date().toISOString());
+
+            try {
+                // Sending data to Webhook
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    body: formData 
+                    // Note: Content-Type header is NOT set manually because 
+                    // browser automatically handles multipart/form-data boundary when passing FormData
+                });
+
+                if (response.ok || response.status === 200 || response.status === 201) {
+                    showToast("Application Sent!", "Your profile has been shared with HR.", true);
+                    document.getElementById('screeningForm').reset();
+                    removeFileBtn.click(); // Reset file upload UI
+                    charCount.textContent = "0";
+                } else {
+                    throw new Error('Server responded with an error status');
+                }
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                showToast("Submission Failed", "Something went wrong. Please try again.", false);
+            } finally {
+                // Reset Button State
+                submitBtn.disabled = false;
+                btnText.textContent = "Submit Application";
+                btnIcon.className = "fa-solid fa-paper-plane text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300";
+            }
+        }
+
+        // Animated Toast Notification
+        function showToast(title, message, isSuccess) {
+            const toastIcon = document.getElementById('toastIcon');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+
+            if (isSuccess) {
+                toast.classList.remove('border-red-500/30');
+                toast.classList.add('border-emerald-500/30');
+                toastIcon.className = "w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center";
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            } else {
+                toast.classList.remove('border-emerald-500/30');
+                toast.classList.add('border-red-500/30');
+                toastIcon.className = "w-8 h-8 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center";
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+            }
+
+            // Slide Up & Fade In
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            // Slide Down & Fade Out after 4 seconds
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
