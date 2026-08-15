@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Experience & Feedback Portal</title>
+  <!-- Google Fonts for clean typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1e1b4b 0%, var(--bg) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 540px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #4f46e5, #ec4899, #06b6d4);
+    }
+
+    .header {
+      margin-bottom: 28px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(79, 70, 229, 0.2);
+      color: #818cf8;
+      border: 1px solid rgba(79, 70, 229, 0.4);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .presets-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .presets-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .preset-btn:hover {
+      background: rgba(79, 70, 229, 0.15);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+      transition: all 0.2s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .status-box {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none;
+      text-align: center;
+    }
+
+    .status-box.success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .status-box.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+
+    .status-box.loading {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <span class="badge">Customer Support AI Engine</span>
+      <h1>Submit Review & Feedback</h1>
+      <p class="subtitle">Share your experience in any language. Our automated AI sentiment router will review your submission instantly.</p>
+    </div>
+
+    <form id="feedbackForm" onsubmit="event.preventDefault(); submitForm();">
+      <div class="form-group">
+        <label for="customer_email">Customer Email</label>
+        <input type="email" id="customer_email" required value="angry.customer@example.com">
+      </div>
+
+      <div class="form-group">
+        <label for="booking_id">Booking / Order ID</label>
+        <input type="text" id="booking_id" required value="BK-99421">
+      </div>
+
+      <div class="presets-label">⚡ Quick Fill Demo Presets (Click to load):</div>
+      <div class="presets-grid">
+        <button type="button" class="preset-btn" onclick="loadPreset('angry')">😡 Angry (Spanish)</button>
+        <button type="button" class="preset-btn" onclick="loadPreset('neutral')">😐 Neutral (German)</button>
+        <button type="button" class="preset-btn" onclick="loadPreset('delighted')">😍 Delighted (French)</button>
+      </div>
+
+      <div class="form-group">
+        <label for="feedback_text">Customer Feedback (Multi-Lingual Supported)</label>
+        <textarea id="feedback_text" required>El servicio de habitación fue terrible! El aire acondicionado no funcionaba y nadie contesto la recepción.</textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="btnSubmit">Submit Feedback</button>
+
+      <div id="statusBox" class="status-box"></div>
+    </form>
+  </div>
+
+  <script>
+    const WEBHOOK_URL = 'http://localhost:5678/webhook-test/feedback';
+
+    function loadPreset(type) {
+      const email = document.getElementById('customer_email');
+      const booking = document.getElementById('booking_id');
+      const text = document.getElementById('feedback_text');
+
+      if (type === 'angry') {
+        email.value = 'angry.customer@example.com';
+        booking.value = 'BK-99421';
+        text.value = 'El servicio de habitación fue terrible! El aire acondicionado no funcionaba y nadie contesto la recepción.';
+      } else if (type === 'neutral') {
+        email.value = 'guest.neutral@example.com';
+        booking.value = 'BK-44120';
+        text.value = 'Das Zimmer war sauber, aber das Frühstück war etwas kalt. Der Service war insgesamt ganz ok.';
+      } else if (type === 'delighted') {
+        email.value = 'happy.guest@example.com';
+        booking.value = 'BK-88319';
+        text.value = 'Un séjour absolument fantastique! Le personnel était incroyable, le lit très confortable et la vue magnifique.';
+      }
+    }
+
+    async function submitForm() {
+      const btn = document.getElementById('btnSubmit');
+      const statusBox = document.getElementById('statusBox');
+
+      const payload = {
+        customer_email: document.getElementById('customer_email').value,
+        booking_id: document.getElementById('booking_id').value,
+        feedback_text: document.getElementById('feedback_text').value
+      };
+
+      // Set UI to loading state
+      btn.disabled = true;
+      btn.innerText = 'Transmitting...';
+      statusBox.style.display = 'block';
+      statusBox.className = 'status-box loading';
+      statusBox.innerText = '⏳ Sending feedback to n8n AI engine...';
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          statusBox.className = 'status-box success';
+          statusBox.innerText = '✅ Feedback submitted successfully! Check your n8n canvas execution.';
+        } else {
+          statusBox.className = 'status-box error';
+          statusBox.innerText = '❌ Webhook returned error HTTP status ' + response.status;
+        }
+      } catch (err) {
+        statusBox.className = 'status-box error';
+        statusBox.innerText = '❌ Connection Error! Make sure your n8n workflow is listening for test events.';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Submit Feedback';
+      }
+    }
+  </script>
+
+</body>
+</html>
